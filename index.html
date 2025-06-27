@@ -1,26 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>닥터아코 Dr.Aco</title>
   <style>
-    /* ====== 기본 & 배경 ====== */
+    /* ====== 플리커링 배경 ====== */
+    @keyframes flicker {
+      0% {
+        background-color: #00ff00;
+      }
+
+      15% {
+        background-color: #ff349a;
+      }
+
+      100% {
+        background-color: #ff349a;
+      }
+    }
+
+    body.flicker {
+      animation: flicker 0.4s steps(1) infinite;
+    }
+
+    /* ====== 로고 펄스 ====== */
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.02);
+      }
+    }
+
+    .logo.pulse {
+      transform-origin: center center;
+      animation: pulse 0.4s ease-in infinite;
+    }
+
+    /* ====== 호버 텍스트 ====== */
+    .hover-text {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 1.5rem;
+      white-space: nowrap;
+      z-index: 9999;
+    }
+
+    /* ====== 기본 스타일 ====== */
     body {
-      background-color: rgb(255, 52, 154);
+      background-color: #ff349a;
       margin: 0;
       padding: 0;
+      font-size: 18px;
+      overflow-x: hidden;
     }
 
-    /* ====== 텍스트 색상: 기본 흰색, neon 클래스면 네온 그린 ====== */
-    .intro,
-    .lang-switcher {
-      color: #FFFFFF;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    .logo {
+      max-width: 90%;
+      height: auto;
+      display: inline-block;
+      cursor: pointer;
     }
 
+    /* ====== 텍스트 색상 ====== */
     body.neon .intro,
-    body.neon .lang-switcher {
+    body.neon .lang-switcher,
+    body.neon .social-link a {
       color: #ff0404;
       text-shadow: 0 0 4px #73ff00, 0 0 8px #00f2ff;
     }
@@ -29,26 +84,20 @@
     .logo-container {
       position: relative;
       text-align: center;
-      padding: 20px 0;
-    }
-
-    .logo {
-      max-width: 80%;
-      height: auto;
-      display: inline-block;
+      padding: 60px 0;
     }
 
     .lang-switcher {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 16px;
+      right: 16px;
       font-family: sans-serif;
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
 
     .lang-switcher span {
       cursor: pointer;
-      padding: 6px 10px;
+      padding: 4px 8px;
     }
 
     .lang-switcher .active {
@@ -59,10 +108,10 @@
     /* ====== 소개문구 ====== */
     .intro {
       text-align: center;
-      margin: 40px;
+      margin: 20px 16px 80px;
       line-height: 1.6;
       font-family: sans-serif;
-      font-size: 2rem;
+      font-size: 1.75rem;
     }
 
     .intro-ko,
@@ -76,6 +125,38 @@
 
     body.lang-en .intro-en {
       display: block;
+    }
+
+    /* ====== 미디어 컨테이너 ====== */
+    .media-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .media-container iframe {
+      height: 352px;
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      border: none;
+    }
+
+    /* ====== 소셜 링크 ====== */
+    .social-link {
+      text-align: center;
+      margin: 80px 0 40px;
+      font-family: sans-serif;
+      font-size: 1.5rem;
+    }
+
+    .social-link a {
+      text-decoration: none;
+      padding: 6px 12px;
+    }
+
+    .social-link a:hover {
+      opacity: 0.8;
     }
 
     /* ====== 이모지 레인 ====== */
@@ -93,19 +174,52 @@
         opacity: 0;
       }
     }
+
+    /* ====== 반응형 조정 ====== */
+    @media (max-width: 480px) {
+      body {
+        font-size: 16px;
+      }
+
+      .lang-switcher {
+        font-size: 0.9rem;
+        top: 12px;
+        right: 12px;
+      }
+
+      .intro {
+        margin: 16px 0 70px;
+        font-size: 1.5rem;
+      }
+
+      .logo-container {
+        padding: 60px 0 40px;
+      }
+
+      .media-container {
+        margin: 20px 10px;
+      }
+
+      .social-link {
+        font-size: 0.9rem;
+        margin: 80px 0 40px;
+      }
+    }
   </style>
 </head>
 
-<body class="neon">
-  <!-- 헤더: 로고 + 언어 선택 -->
+<body class="neon flicker">
+  <div class="glitch-overlay">
+    <div></div>
+  </div>
+
   <header class="logo-container">
-    <img src="assets/dr.aco.title.png" alt="Dr.Aco 로고" class="logo">
+    <img src="assets/dr.aco.title.png" alt="Dr.Aco 로고" class="logo pulse">
     <div class="lang-switcher">
       <span id="ko-btn">한국어</span> | <span id="en-btn">EN</span>
     </div>
   </header>
 
-  <!-- 소개 섹션 -->
   <main class="intro">
     <div class="intro-ko">
       ⚡︎ ㅜ우우우우—위이이이이이~! ⚡︎<br><br>
@@ -121,47 +235,88 @@
     </div>
   </main>
 
-  <!-- 스크립트: 언어 토글 + 이모지 레인 -->
+  <div class="media-container spotify">
+    <iframe src="https://open.spotify.com/embed/track/0R9TpqV9a978snzVFvFbzT?utm_source=generator"
+      loading="lazy"></iframe>
+  </div>
+  <div class="media-container">
+    <iframe src="https://www.youtube.com/embed/AqA2IUHWHGY?si=8PV54zZ2ART5xsdI" loading="lazy"></iframe>
+  </div>
+  <div class="media-container">
+    <iframe src="https://www.youtube.com/embed/tSDoamka1zQ?si=HPn6ufQGnvygA1P0" loading="lazy"></iframe>
+  </div>
+
+  <div class="social-link">
+    <a href="https://www.instagram.com/dr.aco.comin/" target="_blank" rel="noopener">@dr.aco.comin</a>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // 언어 토글
       const koBtn = document.getElementById('ko-btn');
       const enBtn = document.getElementById('en-btn');
-
       function setLang(lang) {
-        // <html> lang 속성도 함께 변경
-        document.documentElement.lang = (lang === 'ko' ? 'ko' : 'en');
-        // body 클래스
+        document.documentElement.lang = lang === 'ko' ? 'ko' : 'en';
         document.body.classList.remove('lang-ko', 'lang-en');
         document.body.classList.add(`lang-${lang}`);
-        // 버튼 스타일 토글
         koBtn.classList.toggle('active', lang === 'ko');
         enBtn.classList.toggle('active', lang === 'en');
       }
-
       koBtn.addEventListener('click', () => setLang('ko'));
       enBtn.addEventListener('click', () => setLang('en'));
+      setLang(navigator.language.startsWith('ko') ? 'ko' : 'en');
 
-      // 초기 언어 설정 (브라우저 언어 감지)
-      const userLang = navigator.language.startsWith('ko') ? 'ko' : 'en';
-      setLang(userLang);
-    });
-
-    // 이모지 레인 (스크롤 위치 반영)
-    const icons = ['👂', '💖'];
-    document.addEventListener('mousemove', e => {
-      const count = 1;
-      for (let i = 0; i < count; i++) {
+      // Emoji rain
+      const icons = ['👂', '💖'];
+      document.addEventListener('mousemove', e => {
         const el = document.createElement('span');
         el.className = 'emoji';
         el.innerText = icons[Math.floor(Math.random() * icons.length)];
-        const size = Math.random() * 20 + 10;
-        el.style.fontSize = `${size}px`;
-        // 스크롤 위치 반영한 페이지 좌표
+        el.style.fontSize = `${Math.random() * 20 + 10}px`;
         el.style.left = `${e.pageX + (Math.random() * 40 - 20)}px`;
         el.style.top = `${e.pageY + (Math.random() * 20 - 10)}px`;
         document.body.appendChild(el);
         el.addEventListener('animationend', () => el.remove());
-      }
+      });
+
+      // 호버 텍스트
+      const logo = document.querySelector('.logo');
+      let hoverTextEl = null;
+      logo.addEventListener('mouseenter', () => {
+        hoverTextEl = document.createElement('span');
+        hoverTextEl.className = 'hover-text';
+        const isLangKo = document.body.classList.contains('lang-ko');
+        const isActive = document.body.classList.contains('flicker') && logo.classList.contains('pulse');
+        hoverTextEl.innerText = isActive
+          ? (isLangKo ? '제발 멈춰~!' : 'Please stop...!')
+          : (isLangKo ? '쒜낐!' : 'Wiggle!');
+        document.body.appendChild(hoverTextEl);
+      });
+      logo.addEventListener('mousemove', e => {
+        if (!hoverTextEl) return;
+        const offset = 12;
+        hoverTextEl.style.left = `${e.pageX + offset}px`;
+        hoverTextEl.style.top = `${e.pageY + offset}px`;
+      });
+      logo.addEventListener('mouseleave', () => {
+        if (hoverTextEl) {
+          hoverTextEl.remove();
+          hoverTextEl = null;
+        }
+      });
+
+      // 클릭 시 플리커/펄스 토글 + 호버 텍스트 업데이트
+      logo.addEventListener('click', () => {
+        document.body.classList.toggle('flicker');
+        logo.classList.toggle('pulse');
+        if (hoverTextEl) {
+          const isLangKo = document.body.classList.contains('lang-ko');
+          const isActive = document.body.classList.contains('flicker') && logo.classList.contains('pulse');
+          hoverTextEl.innerText = isActive
+            ? (isLangKo ? '제발 멈춰~!' : 'Please stop...!')
+            : (isLangKo ? '쒜낐!' : 'Wiggle!');
+        }
+      });
     });
   </script>
 </body>
