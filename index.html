@@ -3,11 +3,154 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Dr.Aco</title>
+  <title>닥터아코 Dr.Aco</title>
+  <style>
+    /* ====== 기본 & 배경 ====== */
+    body {
+      background-color: hotpink;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ====== 로고 & 언어 토글 ====== */
+    .logo-container {
+      position: relative;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      max-width: 80%;
+      height: auto;
+      display: inline-block;
+    }
+
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-family: sans-serif;
+      font-size: 0.9rem;
+      /* ← 언어 토글 폰트 키움 */
+    }
+
+    .lang-switcher span {
+      cursor: pointer;
+      padding: 6px 10px;
+      /* 약간 여유도 추가 */
+    }
+
+    .lang-switcher .active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    /* ====== 소개문구 ====== */
+    .intro {
+      text-align: center;
+      margin: 40px;
+      line-height: 1.6;
+      font-family: sans-serif;
+      font-size: 2rem;
+      /* ← 여기서 폰트를 크게 조절 */
+    }
+
+    /* 기본 모두 숨기고, body 클래스에 따라 토글 */
+    .intro-ko,
+    .intro-en {
+      display: none;
+    }
+
+    body.lang-ko .intro-ko {
+      display: block;
+    }
+
+    body.lang-en .intro-en {
+      display: block;
+    }
+
+    /* ====== 이모지 레인 스타일 ====== */
+    .emoji {
+      position: absolute;
+      user-select: none;
+      pointer-events: none;
+      will-change: transform, opacity;
+      animation: fall 1s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100px) rotate(180deg);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Hello World</h1>
+  <!-- 헤더: 로고 + 언어 선택 -->
+  <header class="logo-container">
+    <img src="assets/dr.aco.title.png" alt="Dr.Aco 로고" class="logo">
+    <div class="lang-switcher">
+      <span id="ko-btn">한국어</span> | <span id="en-btn">EN</span>
+    </div>
+  </header>
+
+  <!-- 소개 섹션 -->
+  <main class="intro">
+    <div class="intro-ko">
+      ⚡︎ ㅜ우우우우—위이이이이이~! ⚡︎<br><br>
+      따분한 소리에 지쳤다면?<br><br>
+      ✦ Dr. Aco를 만나보세요 ✦<br><br>
+      귀르가즘, 신속배달-!
+    </div>
+    <div class="intro-en">
+      ⚡︎ ＷｏｏＯＯｏｏ – ＷＨＥＥＥｅｅｅ～！⚡︎<br><br>
+      Tired of boring sounds?<br><br>
+      ✦ 𝕄𝕖𝕖𝕥 𝔻𝕣. 𝔸𝕔𝕠 ✦<br><br>
+      Rapid delivery of Auditory Cortex Orgasm (ACO)
+    </div>
+  </main>
+
+  <!-- 언어 토글 & 이모지 레인 스크립트 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const koBtn = document.getElementById('ko-btn');
+      const enBtn = document.getElementById('en-btn');
+
+      function setLang(lang) {
+        document.body.classList.remove('lang-ko', 'lang-en');
+        document.body.classList.add(`lang-${lang}`);
+        koBtn.classList.toggle('active', lang === 'ko');
+        enBtn.classList.toggle('active', lang === 'en');
+      }
+
+      // 버튼 클릭
+      koBtn.addEventListener('click', () => setLang('ko'));
+      enBtn.addEventListener('click', () => setLang('en'));
+
+      // 초기 언어 설정 (브라우저 언어 감지)
+      const userLang = navigator.language.startsWith('ko') ? 'ko' : 'en';
+      setLang(userLang);
+    });
+
+    // 이모지 레인
+    const icons = ['👂', '💖'];
+    document.addEventListener('mousemove', e => {
+      const count = 1;
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('span');
+        el.className = 'emoji';
+        el.innerText = icons[Math.floor(Math.random() * icons.length)];
+        const size = Math.random() * 20 + 10;
+        el.style.fontSize = `${size}px`;
+        el.style.left = `${e.clientX + (Math.random() * 40 - 20)}px`;
+        el.style.top = `${e.clientY + (Math.random() * 20 - 10)}px`;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    });
+  </script>
 </body>
 
 </html>
